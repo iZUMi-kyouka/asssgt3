@@ -1,6 +1,6 @@
 # Cross-platform push checks
 
-The GitHub Actions workflow configures and builds the CMake target on Linux, 64-bit Windows, Apple Silicon macOS, and Intel macOS. It verifies compilation and linking; it does not launch the interactive GLUT window.
+The public GitHub repository is [iZUMi-kyouka/asssgt3](https://github.com/iZUMi-kyouka/asssgt3). The Actions workflow configures and builds the CMake target on Linux, 64-bit Windows, Apple Silicon macOS, and Intel macOS. It verifies compilation and linking; it does not launch the interactive GLUT window.
 
 ## Enable the pre-push hook
 
@@ -14,15 +14,15 @@ Each `git push` submits the exact outgoing commit to a temporary `ci-validation/
 
 The hook needs Git push credentials for the remote and GitHub CLI access to read workflow runs. If `gh` cannot infer the repository, set `GH_REPO=owner/repository` before pushing.
 
-## Protect `main` without requiring pull requests
+## `main` protection
 
-Create an active branch ruleset in **Settings → Rules → Rulesets** targeting `refs/heads/main`. Require these exact checks:
+The repository already has an active ruleset named **Cross-platform checks on main**, targeting `refs/heads/main`. It requires these checks:
 
 - `Build (Linux)`
 - `Build (Windows x64)`
 - `Build (macOS ARM64)`
 - `Build (macOS Intel)`
 
-Leave the pull-request requirement disabled. The hook submits the same commit SHA for hosted checks before the original push; the ruleset also prevents a bypassed local hook from updating `main` without passing checks. Do not configure bypass actors if all pushers must satisfy the checks.
+The ruleset allows direct pushes and does not require pull requests. The hook submits the same commit SHA for hosted checks before the original push; the ruleset also prevents a bypassed local hook from updating `main` without passing checks. It has no bypass actors.
 
 Git hooks are local to each clone. Run the installer again after cloning on another machine.
